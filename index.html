@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP1 - Guía de Trámites UNT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tramite-card {
+            transition: all 0.3s ease;
+        }
+        .tramite-card.hidden {
+            display: none;
+        }
+        .tramite-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.15);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-emerald-50 h-screen overflow-hidden">
+    <div class="h-full flex flex-col bg-white max-w-md mx-auto">
+        <!-- Header Simple -->
+        <div class="gradient-header text-white px-6 py-8 flex items-center justify-between shadow-lg">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-3xl font-bold">Steps</h1>
+                    <img src="huella.png" alt="Huella" class="w-7 h-7" style="filter: brightness(0) invert(1); transform: rotate(15deg);">
+                </div>
+                <p class="text-emerald-100 text-sm mt-1">Guía de Trámites UNT</p>
+            </div>
+            <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Search Bar Simple -->
+        <div class="px-5 py-4 bg-white border-b border-emerald-100">
+            <div class="flex items-center gap-3 bg-emerald-50 rounded-lg px-4 py-3 border border-emerald-200">
+                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Buscar trámite..." class="flex-1 bg-transparent outline-none text-gray-700 text-sm">
+            </div>
+        </div>
+
+        <!-- Lista Simple de Trámites -->
+        <div class="flex-1 overflow-y-auto bg-gradient-to-br from-green-50 to-emerald-50">
+            <div class="px-5 py-4">
+                <h2 class="text-lg font-bold text-emerald-900 mb-4">Todos los Trámites</h2>
+                
+                <!-- Trámite 1 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Certificado de Estudios" data-tipo="gratuito">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Certificado de Estudios</h3>
+                    <p class="text-sm text-gray-600 mb-3">Documento oficial que acredita los estudios realizados en la universidad.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Secretaría General</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Certificado de Estudios" data-location="Secretaría General" data-description="Documento oficial que acredita los estudios realizados en la universidad." data-steps="1. Dirigirse a Secretaría General con cédula de identidad|2. Solicitar el certificado y especificar semestres|3. Pagar la tarifa correspondiente|4. Recoger el documento en 3-5 días hábiles">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 2 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Carné Universitario">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Carné Universitario</h3>
+                    <p class="text-sm text-gray-600 mb-3">Solicitud y renovación del carné de identificación estudiantil.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Oficina de Registro</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Carné Universitario" data-location="Oficina de Registro" data-description="Solicitud y renovación del carné de identificación estudiantil." data-steps="1. Acudir a Oficina de Registro con documentos|2. Llenar formulario de solicitud|3. Proporcionar foto de carnet tamaño 4x5|4. Recoger carné en una semana">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 3 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Constancia de Matrícula">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Constancia de Matrícula</h3>
+                    <p class="text-sm text-gray-600 mb-3">Documento que certifica tu inscripción en el semestre actual.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Facultad</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Constancia de Matrícula" data-location="Facultad" data-description="Documento que certifica tu inscripción en el semestre actual." data-steps="1. Ingresar al portal estudiantil|2. Descargar constancia automáticamente|3. Si requiere físico, ir a la Facultad|4. Solicitar y firmar documento">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 4 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Récord de Notas">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Récord de Notas</h3>
+                    <p class="text-sm text-gray-600 mb-3">Historial completo de calificaciones y cursos aprobados.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Secretaría Académica</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Récord de Notas" data-location="Secretaría Académica" data-description="Historial completo de calificaciones y cursos aprobados." data-steps="1. Acceder al portal con credenciales|2. Consultar récord académico|3. Descargar o solicitar impreso|4. Si requiere autenticación, llevar cédula">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 5 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Constancia de Egresado">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Constancia de Egresado</h3>
+                    <p class="text-sm text-gray-600 mb-3">Certificado que acredita que has culminado tus estudios universitarios.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Secretaría General</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Constancia de Egresado" data-location="Secretaría General" data-description="Certificado que acredita que has culminado tus estudios universitarios." data-steps="1. Presentar resolución de egreso|2. Verificar requisitos completados|3. Pagar arancel de expedición|4. Recoger constancia en 5 días">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 6 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Solicitud de Beca">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Solicitud de Beca</h3>
+                    <p class="text-sm text-gray-600 mb-3">Proceso para solicitar apoyo económico estudiantil.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Bienestar Universitario</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Solicitud de Beca" data-location="Bienestar Universitario" data-description="Proceso para solicitar apoyo económico estudiantil." data-steps="1. Verificar requisitos de elegibilidad|2. Completar formulario de solicitud|3. Presentar documentos requeridos|4. Esperar evaluación y resultado">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 7 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Retiro de Ciclo">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Retiro de Ciclo</h3>
+                    <p class="text-sm text-gray-600 mb-3">Solicitud para retirarse del semestre académico actual.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Dirección de Escuela</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Retiro de Ciclo" data-location="Dirección de Escuela" data-description="Solicitud para retirarse del semestre académico actual." data-steps="1. Solicitar formulario de retiro|2. Obtener autorización académica|3. Procesar en Tesorería si hay saldo|4. Entregar documentos a Dirección">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 8 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Duplicado de Recibo">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Duplicado de Recibo</h3>
+                    <p class="text-sm text-gray-600 mb-3">Obtén una copia de tus comprobantes de pago universitarios.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Tesorería</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Duplicado de Recibo" data-location="Tesorería" data-description="Obtén una copia de tus comprobantes de pago universitarios." data-steps="1. Dirigirse a oficina de Tesorería|2. Proporcionar datos del pago|3. Verificar datos en sistema|4. Recibir duplicado inmediatamente">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 9 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Convalidación de Cursos">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Convalidación de Cursos</h3>
+                    <p class="text-sm text-gray-600 mb-3">Reconocimiento de estudios realizados en otras universidades.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Decanatura</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Convalidación de Cursos" data-location="Decanatura" data-description="Reconocimiento de estudios realizados en otras universidades." data-steps="1. Solicitar formulario de convalidación|2. Presentar syllabus o contenido del curso|3. Entregar documentos a Decanatura|4. Esperar evaluación académica">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 10 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Solicitud de Prórroga">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Solicitud de Prórroga</h3>
+                    <p class="text-sm text-gray-600 mb-3">Ampliación del plazo para completar requisitos académicos.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Dirección Académica</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Solicitud de Prórroga" data-location="Dirección Académica" data-description="Ampliación del plazo para completar requisitos académicos." data-steps="1. Justificar motivo de la prórroga|2. Completar formulario de solicitud|3. Obtener aprobación del director|4. Confirmar nueva fecha límite">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 11 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Permiso de Trabajo de Grado">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Permiso de Trabajo de Grado</h3>
+                    <p class="text-sm text-gray-600 mb-3">Autorización para realizar y sustentar trabajo de investigación.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Escuela de Posgrado</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Permiso de Trabajo de Grado" data-location="Escuela de Posgrado" data-description="Autorización para realizar y sustentar trabajo de investigación." data-steps="1. Proponer tema de investigación|2. Asignar asesor académico|3. Presentar anteproyecto|4. Obtener aprobación de escuela">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Trámite 12 -->
+                <div class="bg-white border-2 border-emerald-200 rounded-xl p-4 mb-3 shadow-sm tramite-card hover:border-emerald-400" data-title="Traslado Interno">
+                    <h3 class="font-semibold text-emerald-900 text-base mb-2">Traslado Interno</h3>
+                    <p class="text-sm text-gray-600 mb-3">Cambio de carrera o facultad dentro de la universidad.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-emerald-600">📍 Oficina de Admisión</span>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium ver-mas transition" data-title="Traslado Interno" data-location="Oficina de Admisión" data-description="Cambio de carrera o facultad dentro de la universidad." data-steps="1. Solicitar formulario de traslado|2. Cumplir requisitos de la nueva carrera|3. Aprobar prueba de selección si aplica|4. Efectuar matrícula en nueva carrera">Ver más</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="modalTitle" class="text-xl font-bold text-emerald-800"></h2>
+                <button id="closeModal" class="text-emerald-500 hover:text-emerald-700 text-2xl">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="text-sm text-gray-600 mb-3">
+                    <span class="font-semibold">Ubicación:</span>
+                    <br>
+                    <span id="modalLocation">-</span>
+                </p>
+                <p class="text-sm text-gray-600 mb-3">
+                    <span class="font-semibold">Descripción:</span>
+                    <br>
+                    <span id="modalDescription">-</span>
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold text-sm text-emerald-700 mb-2">Pasos a seguir:</p>
+                <ol id="modalSteps" class="list-decimal list-inside text-sm text-gray-600 space-y-1"></ol>
+            </div>
+            <button id="closeBtn" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-medium transition">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal Pago -->
+    <div id="modalPago" class="modal">
+        <div class="modal-content">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Pago Requerido</h2>
+                <div class="bg-orange-100 border-2 border-orange-400 rounded-lg p-6 mb-6">
+                    <p class="text-gray-700 mb-2">Costo del servicio:</p>
+                    <p class="text-4xl font-bold text-orange-600">S/. 2.00</p>
+                    <p class="text-sm text-gray-600 mt-2">Acceso mensual</p>
+                </div>
+                <p class="text-sm text-gray-600 mb-6">Para ver el paso a paso de este trámite, necesitas realizar el pago de S/. 2.00</p>
+                <div class="flex gap-3">
+                    <button id="cancelPago" class="flex-1 bg-gray-300 text-gray-800 py-3 rounded-lg font-medium">Cancelar</button>
+                    <button id="confirmarPago" class="flex-1 bg-orange-500 text-white py-3 rounded-lg font-medium">Pagar S/. 2.00</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const tramiteCards = document.querySelectorAll('.tramite-card');
+        const verMasButtons = document.querySelectorAll('.ver-mas');
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('closeModal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Funcionalidad de búsqueda
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            tramiteCards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+
+        // Funcionalidad de modal para "Ver más"
+        verMasButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const title = this.dataset.title;
+                const location = this.dataset.location;
+                const description = this.dataset.description;
+                const steps = this.dataset.steps.split('|');
+
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalLocation').textContent = location;
+                document.getElementById('modalDescription').textContent = description;
+
+                const stepsContainer = document.getElementById('modalSteps');
+                stepsContainer.innerHTML = '';
+                steps.forEach(step => {
+                    const li = document.createElement('li');
+                    li.textContent = step.trim();
+                    stepsContainer.appendChild(li);
+                });
+
+                modal.classList.add('active');
+            });
+        });
+
+        // Cerrar modal
+        closeModal.addEventListener('click', () => modal.classList.remove('active'));
+        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+        // Cerrar modal al hacer click fuera
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
